@@ -39,6 +39,10 @@
 DECLARE @year  INT = CAST('{year}'  AS INT);
 DECLARE @month INT = CAST('{month}' AS INT);
 
+-- 当月闭区间（与计算脚本 '{start_time}' / '{end_time}' 语义一致）
+DECLARE @start_time DATETIME = DATEFROMPARTS(@year, @month, 1);
+DECLARE @end_time   DATETIME = DATEADD(SECOND, -1, DATEADD(MONTH, 1, @start_time));
+
 WITH cte_rvu AS (
     -- 仅取门诊诊察类（1043）收费项目
     SELECT
